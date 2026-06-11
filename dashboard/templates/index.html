@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Threat Intelligence Dashboard</title>
+</head>
+<body>
+    <h1>Threat Intelligence Platform Dashboard</h1>
+
+    <h2>Total Threats: {{ total_threats }}</h2>
+    <h2>High Risk Threats: {{ high_risk }}</h2>
+
+    <table border="1">
+        <tr>
+            <th>IP</th>
+            <th>Domain</th>
+            <th>Risk Score</th>
+        </tr>
+
+        {% for threat in threats %}
+        <tr>
+            <td>{{ threat.ip }}</td>
+            <td>{{ threat.domain }}</td>
+            <td>{{ threat.risk_score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

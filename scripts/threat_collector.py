@@ -1,0 +1,12 @@
+import json
+
+threats = [
+    {"ip": "192.168.1.10", "domain": "malicious-example.com", "risk_score": 90},
+    {"ip": "10.0.0.15", "domain": "phishing-example.net", "risk_score": 75},
+    {"ip": "172.16.5.20", "domain": "botnet-example.org", "risk_score": 95}
+]
+
+with open("../data/threats.json", "w") as f:
+    json.dump(threats, f, indent=4)
+
+print("Threat intelligence collected successfully.")
