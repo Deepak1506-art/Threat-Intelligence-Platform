@@ -19,13 +19,16 @@ def home():
 
     threats = collect_threats()
 
-    normalize_threats()
+    normalized = normalize_threats()
 
     blocked = enforce_policy()
 
     total = len(threats)
 
-    high_risk = len([t for t in threats if t["risk_score"] >= 80])
+    high_risk = len([
+        t for t in threats
+        if t["risk_score"] >= 80
+    ])
 
     return render_template(
         "index.html",
@@ -34,7 +37,5 @@ def home():
         high_risk=high_risk,
         blocked=len(blocked)
     )
-
-
 if __name__ == "__main__":
     app.run(debug=True)
