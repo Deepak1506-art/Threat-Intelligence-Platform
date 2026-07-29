@@ -4,6 +4,7 @@ from models.models import db
 from services.collector import collect_threats
 from services.normalizer import normalize_threats
 from services.policy import enforce_policy
+import math
 
 app = Flask(__name__)
 
@@ -42,6 +43,7 @@ def home():
     else:
         threats.sort(key=lambda x: x["risk_score"])
 
+    # Dashboard Counts
     total = len(threats)
 
     high_risk = len([
@@ -50,23 +52,24 @@ def home():
     ])
 
     severity_data = {
-        "Critical": len([
-            t for t in threats
-            if t["risk_score"] >= 90
-        ]),
-        "High": len([
-            t for t in threats
-            if 70 <= t["risk_score"] < 90
-        ]),
-        "Medium": len([
-            t for t in threats
-            if 40 <= t["risk_score"] < 70
-        ]),
-        "Low": len([
-            t for t in threats
-            if t["risk_score"] < 40
-        ])
+        "Critical": len([t for t in threats if t["risk_score"] >= 90]),
+        "High": len([t for t in threats if 70 <= t["risk_score"] < 90]),
+        "Medium": len([t for t in threats if 40 <= t["risk_score"] < 70]),
+        "Low": len([t for t in threats if t["risk_score"] < 40])
     }
+
+    # Pagination
+    page = request.args.get("page", 1, type=int)
+
+    per_page = 10
+
+    total_pages = math.ceil(len(threats) / per_page)
+
+    start = (page - 1) * per_page
+
+    end = start + per_page
+
+    threats = threats[start:end]
 
     return render_template(
         "index.html",
@@ -76,7 +79,9 @@ def home():
         blocked=len(blocked),
         severity_data=severity_data,
         search=search,
-        sort=sort
+        sort=sort,
+        page=page,
+        total_pages=total_pages
     )
 
 
