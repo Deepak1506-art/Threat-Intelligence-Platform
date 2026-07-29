@@ -24,6 +24,7 @@ def home():
 
     blocked = enforce_policy()
 
+    # Search
     search = request.args.get("search", "").strip().lower()
 
     if search:
@@ -32,6 +33,14 @@ def home():
             if search in t["ip"].lower()
             or search in t["domain"].lower()
         ]
+
+    # Sort
+    sort = request.args.get("sort", "high")
+
+    if sort == "high":
+        threats.sort(key=lambda x: x["risk_score"], reverse=True)
+    else:
+        threats.sort(key=lambda x: x["risk_score"])
 
     total = len(threats)
 
@@ -66,7 +75,8 @@ def home():
         high_risk=high_risk,
         blocked=len(blocked),
         severity_data=severity_data,
-        search=search
+        search=search,
+        sort=sort
     )
 
 

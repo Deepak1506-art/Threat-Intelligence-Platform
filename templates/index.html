@@ -21,10 +21,10 @@
 
     <hr>
 
-    <!-- Search Bar -->
+    <!-- Search & Sort -->
     <form method="GET" action="/" class="row g-3 mb-4">
 
-        <div class="col-md-10">
+        <div class="col-md-6">
             <input
                 type="text"
                 class="form-control"
@@ -34,15 +34,32 @@
             >
         </div>
 
-        <div class="col-md-2 d-grid">
+        <div class="col-md-3">
+            <select class="form-select" name="sort">
+
+                <option value="high"
+                    {% if sort == "high" %}selected{% endif %}>
+                    Highest Risk
+                </option>
+
+                <option value="low"
+                    {% if sort == "low" %}selected{% endif %}>
+                    Lowest Risk
+                </option>
+
+            </select>
+        </div>
+
+        <div class="col-md-3 d-grid">
             <button class="btn btn-primary" type="submit">
-                Search
+                Search & Sort
             </button>
         </div>
 
     </form>
 
     <!-- Dashboard Cards -->
+
     <div class="row mt-4">
 
         <div class="col-md-4">
